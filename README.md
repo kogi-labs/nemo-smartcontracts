@@ -6,13 +6,13 @@ yarn install
 ```
 
 ### Configuration
-- Link file .env to .env.mumbai for testnet
+- Link file .env to .env.fuji for testnet
 
 ```bash
 yarn testnet:env
 ```
 
-- Link file .env to .env.polygon for mainnet
+- Link file .env to .env.fuji for mainnet
 ```bash
 yarn mainnet:env
 ```
@@ -22,7 +22,7 @@ yarn mainnet:env
 
 ```bash
 yarn build # Compile all of solidity smart contract files
-yarn deploy_sias:mumbai #deploy smartcontract to mumbai network
-yarn upgrade_sias:mumbai #upgrade smartcontract to mumbai network
+yarn deploy_sias:fuji #deploy smartcontract to fuji network
+yarn upgrade_sias:fuji #upgrade smartcontract to fuji network
 yarn update:abi #Compile and extract abi for dapps
 ```
