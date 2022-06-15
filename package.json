@@ -1,9 +1,9 @@
 {
-  "name": "sias-constracts",
-  "description": "Sias smart contracts",
+  "name": "nemo-constracts",
+  "description": "NEMO smart contracts",
   "version": "0.1.0",
   "private": true,
-  "author": "Sias Inc",
+  "author": "NEMO Inc",
   "license": "MIT",
   "scripts": {
     "testnet:env": "rm .env && ln -s .env.fuji .env",

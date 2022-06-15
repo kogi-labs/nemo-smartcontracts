@@ -5,7 +5,7 @@ const path = require('path');
 const JSON_EXT_REGEX = /\.json$/;
 
 const artifactsDir = path.join(__dirname, '../artifacts');
-const abisDir = path.join(__dirname, '../../sias-contract-docs/abi');
+const abisDir = path.join(__dirname, '../../galix-contract-docs/abi');
 
 mkdirp.sync(abisDir);
 

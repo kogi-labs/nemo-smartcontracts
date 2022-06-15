@@ -2,11 +2,11 @@
 pragma solidity ^0.8.2;
 
 /**
- * @title SIA Coin
- * @author SIAS Inc
+ * @title GALIX Token
+ * @author GALIX Inc
  */
 
-interface ISiasERC20 {
+interface IGalixERC20 {
     //admin view
     function transfer(address _to, uint256 _value) external returns (bool);
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);

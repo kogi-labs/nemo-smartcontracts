@@ -3,11 +3,11 @@ pragma solidity ^0.8.2;
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 
 /**
- * @title Sias ERC721 Token
- * @author Sias Inc
+ * @title Galix ERC721 Token
+ * @author GALIX Inc
 */
 
-interface ISiasERC721 is IERC721Upgradeable {
+interface IGalixERC721 is IERC721Upgradeable {
     event onAwardItem(address recipient, string cid, uint256 tokenId);
     event onTokenTransfer(address from, address to, uint256 tokenId);
     event onTokenBurn(uint256 tokenId);

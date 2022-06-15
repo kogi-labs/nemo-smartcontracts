@@ -11,11 +11,11 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgrad
 import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
 
 /**
- * @title SIA Coin
- * @author SIAS Inc
- */
+ * @title GALIX Token
+ * @author GALIX Inc
+*/
 
-contract SiasERC20 is
+contract GalixERC20 is
     Initializable,
     ERC20Upgradeable,
     OwnableUpgradeable,
@@ -28,75 +28,74 @@ contract SiasERC20 is
 
     bytes32 public constant MINTER_ROLE     = keccak256("MINTER_ROLE");
     bytes32 public constant FREEZE_ROLE     = keccak256("FREEZE_ROLE");
-    uint256 private _maxSupply;
+    uint256 private _maxSupply; // 0 unlimited
     uint256 private _supply;
 
-    function initialize(string memory name, string memory symbol, uint256 maxSupply) public virtual initializer {        
-        __ERC20_init(name, symbol);
+    function initialize(string memory _name, string memory _symbol, uint256 __maxSupply) public virtual initializer {        
+        __ERC20_init(_name, _symbol);
         __Ownable_init();
-        __ERC20Permit_init(name);
+        __ERC20Permit_init(_name);
         
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
-        _maxSupply = maxSupply;
+        _maxSupply = __maxSupply;
         _supply = 0;
     }
 
     function _mint(address account, uint256 amount) internal virtual override {
-        require(_supply.add(amount) <= _maxSupply, "Over maxSupply");
+        require(_supply.add(amount) <= _maxSupply || _maxSupply == 0, "Over maxSupply");
         _supply = _supply.add(amount);
         super._mint(account, amount);
     }
 
     ////////////////// ADMIN /////////////////
-    function createSnapshot() public virtual returns (uint256) {
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Must have admin role to snapshot");
+    function createSnapshot() external returns (uint256) {
+        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()),"Must have admin role to snapshot");
         return _snapshot();
     }
 
-        //admin view
-    function mintFrom(address account, uint256 amount) public virtual {
+    function mintFrom(address account, uint256 amount) external {
         require(hasRole(MINTER_ROLE, _msgSender()), "Must have minter role to mint");
         _mint(account, amount);        
     }
 
-    function mint(uint256 amount) public virtual {
+    function mint(uint256 amount) external {
         require(hasRole(MINTER_ROLE, _msgSender()), "Must have minter role to mint");
         _mint(_msgSender(), amount);
     }
 
-    function burnFrom(address account, uint256 amount) public virtual {
+    function burnFrom(address account, uint256 amount) external {
         require(hasRole(MINTER_ROLE, _msgSender()), "Must have minter role to burnFrom");
         _burn(account, amount);
     }
 
-    function addMinter(address account) public {
+    function addMinter(address account) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Must have admin role to addMinter");
         grantRole(MINTER_ROLE, account);
     }
 
-    function removeMinter(address account) public {
+    function removeMinter(address account) external {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "must have admin role to removeMinter");
         revokeRole(MINTER_ROLE, account);
     }
 
-    function pause() public {
+    function pause() external {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Must have admin role to pause");
         _pause();
     }
 
-    function unpause() public {
+    function unpause() external {
         require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Must have admin role to unpause");
         _unpause();
     }
 
     ////////////////// MINTER /////////////////
-    function freeze(address account) public {
+    function freeze(address account) external {
         require(hasRole(MINTER_ROLE, _msgSender()), "Must have minter role to freeze");
         grantRole(FREEZE_ROLE, account);
     }
 
-    function unfreeze(address account) public {
+    function unfreeze(address account) external {
         require(hasRole(MINTER_ROLE, _msgSender()), "Must have minter role to unfreeze");
         revokeRole(FREEZE_ROLE, account);
     }
@@ -107,15 +106,77 @@ contract SiasERC20 is
     }
 
     ////////////////// ANON /////////////////
-    function burn(uint256 amount) public virtual {
+    function burn(uint256 amount) external {
         _burn(_msgSender(), amount);
     }
     
-    function maxSupply() public view virtual returns (uint256) {
-        return _maxSupply;
+    function maxSupply() external view returns (uint256) {
+        if(_maxSupply > 0){
+            return _maxSupply;
+        }else{
+            return _supply;
+        }
     }
 
-    function version() public view virtual returns (uint256) {
-        return 202201141;
+    function version() external view virtual returns (uint256) {
+        return 202205161;
     }
+
+    /*
+    t.Approval
+    t.DEFAULT_ADMIN_ROLE
+    t.DOMAIN_SEPARATOR
+    t.FREEZE_ROLE
+    t.MINTER_ROLE
+    t.Paused
+    t.RoleAdminChanged
+    t.RoleGrantedt.RoleRevoked
+    t.Snapshot
+    t.Transfer
+    t.Unpaused
+    t.abi
+    t.addMinter
+    t.address
+    t.allEvents
+    t.allowance
+    t.approve
+    t.balanceOf
+    t.balanceOfAt
+    t.burn
+    t.constructor
+    t.contract
+    t.decimals
+    t.decreaseAllowance
+    t.freeze
+    t.getPastEvents
+    t.getRoleAdmin
+    t.getRoleMember
+    t.getRoleMemberCount
+    t.grantRole
+    t.hasRole
+    t.increaseAllowance
+    t.initialize
+    t.methods
+    t.mint
+    t.mintFrom
+    t.name
+    t.nonces
+    t.pause
+    t.paused
+    t.permit
+    t.removeMinter
+    t.renounceRole
+    t.revokeRole
+    t.send
+    t.sendTransaction
+    t.supportsInterface
+    t.symbol
+    t.totalSupply
+    t.totalSupplyAt
+    t.transactionHash
+    t.transfer
+    t.transferFrom
+    t.unfreeze
+    t.unpause
+    */
 }
