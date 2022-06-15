@@ -22,7 +22,7 @@ yarn mainnet:env
 
 ```bash
 yarn build # Compile all of solidity smart contract files
-yarn deploy_sias:fuji #deploy smartcontract to fuji network
-yarn upgrade_sias:fuji #upgrade smartcontract to fuji network
+yarn deploy_galix:fuji #deploy smartcontract to fuji network
+yarn upgrade_galix:fuji #upgrade smartcontract to fuji network
 yarn update:abi #Compile and extract abi for dapps
 ```
